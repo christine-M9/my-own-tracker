@@ -1,7 +1,6 @@
 # cli.py
 import click
-from models import Student
-from database import Session
+from models import Student, Session
 
 @click.group()
 def cli():
@@ -34,4 +33,6 @@ def list_students():
 
 if __name__ == '__main__':
     cli()
+
+
 
