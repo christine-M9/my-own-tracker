@@ -1,6 +1,7 @@
-# cli.py
+from sqlalchemy.orm import Session 
 import click
 from models import Student, Course, Session
+
 
 @click.group()
 def cli():
@@ -105,9 +106,22 @@ def get_enrolled_courses(student_id):
     else:
         click.echo(f'Student "{student.name}" with ID "{student.student_id}" is not enrolled in any courses.')
 
+@cli.command()
+@click.option('--name', prompt='Student Name', help='Name of the student to search for')
+def search_student_by_name(name):
+    """Search for a student by name"""
+    session = Session()
+    
+    # Perform a case-insensitive search for students with matching names
+    students = session.query(Student).filter(Student.name.ilike(f"%{name}%")).all()
+    session.close()
+
+    if students:
+        click.echo("Matching Students:")
+        for student in students:
+            click.echo(f'Student ID: {student.student_id}, Name: {student.name}')
+    else:
+        click.echo(f'No students found with the name "{name}".')
+
 if __name__ == '__main__':
     cli()
-
-
-
-
