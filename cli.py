@@ -33,6 +33,3 @@ def list_students():
 
 if __name__ == '__main__':
     cli()
-
-
-

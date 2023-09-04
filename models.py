@@ -19,4 +19,3 @@ Session = sessionmaker(bind=engine)
 
 # Create the database tables
 Base.metadata.create_all(engine)
-
