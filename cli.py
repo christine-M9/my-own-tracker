@@ -124,6 +124,33 @@ def search_student_by_name(name):
     else:
         click.echo(f'No students found with the name "{name}".')
 
+@cli.command()
+@click.option('--course-id', prompt='Course ID', help='Course ID')
+def list_enrolled_students(course_id):
+    """List students enrolled in a specific course"""
+    session = Session()
+
+    # Fetch the course by ID
+    course = session.query(Course).filter_by(id=course_id).first()
+
+    if not course:
+        click.echo(f'Course with ID "{course_id}" not found.')
+        session.close()
+        return
+
+    enrolled_students = course.students
+
+    session.close()
+
+    if enrolled_students:
+        click.echo(f'Students enrolled in Course "{course.name}" (ID: {course.id}):')
+        for student in enrolled_students:
+            click.echo(f'Student ID: {student.student_id}, Name: {student.name}, Email: {student.email}')
+    else:
+        click.echo(f'No students enrolled in Course "{course.name}" (ID: {course.id}).')
+
+
+
 if __name__ == '__main__':
     cli()
 
