@@ -18,6 +18,7 @@ class Student(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     student_id = Column(String, nullable=False, unique=True)
+    email = Column(String, nullable=True)  # Add email as an attribute
     
     # Define a many-to-many relationship with Course
     courses = relationship('Course', secondary=student_courses, back_populates='students')
@@ -30,6 +31,7 @@ class Course(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
+    description = Column(String, nullable=True)  # Add course description as an attribute
     
     # Define a many-to-many relationship with Student
     students = relationship('Student', secondary=student_courses, back_populates='courses')
