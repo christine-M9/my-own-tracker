@@ -149,7 +149,5 @@ def list_enrolled_students(course_id):
     else:
         click.echo(f'No students enrolled in Course "{course.name}" (ID: {course.id}).')
 
-
-
 if __name__ == '__main__':
     cli()
