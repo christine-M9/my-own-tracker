@@ -153,4 +153,3 @@ def list_enrolled_students(course_id):
 
 if __name__ == '__main__':
     cli()
-
