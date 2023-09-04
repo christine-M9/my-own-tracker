@@ -1,4 +1,3 @@
-# models.py
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -23,6 +22,9 @@ class Student(Base):
     # Define a many-to-many relationship with Course
     courses = relationship('Course', secondary=student_courses, back_populates='students')
 
+    def get_enrolled_courses(self):
+        return [course.name for course in self.courses]
+
 class Course(Base):
     __tablename__ = 'courses'
 
@@ -33,9 +35,11 @@ class Course(Base):
     students = relationship('Student', secondary=student_courses, back_populates='courses')
 
 # Create the database engine and session
-DATABASE_URI = 'sqlite:///student_tracker.db'
+DATABASE_URI = 'sqlite:///student_tracker.db'  # Use SQLite for simplicity, replace with your preferred database
 engine = create_engine(DATABASE_URI)
 Session = sessionmaker(bind=engine)
 
 # Create the database tables
 Base.metadata.create_all(engine)
+
+

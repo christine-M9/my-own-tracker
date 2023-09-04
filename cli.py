@@ -83,7 +83,31 @@ def enrol_student(student_id, course_id):
     # Close the session after the operation
     session.close()
 
+@cli.command()
+@click.option('--student-id', prompt='Student ID', help='Student ID')
+def get_enrolled_courses(student_id):
+    """Get enrolled courses for a student"""
+    session = Session()
+    student = session.query(Student).filter_by(student_id=student_id).first()
+
+    if not student:
+        click.echo(f'Student with ID "{student_id}" not found.')
+        session.close()
+        return
+
+    enrolled_courses = student.get_enrolled_courses()
+    session.close()
+
+    if enrolled_courses:
+        click.echo(f'Enrolled courses for Student "{student.name}" with ID "{student.student_id}":')
+        for course_name in enrolled_courses:
+            click.echo(course_name)
+    else:
+        click.echo(f'Student "{student.name}" with ID "{student.student_id}" is not enrolled in any courses.')
+
 if __name__ == '__main__':
     cli()
+
+
 
 
